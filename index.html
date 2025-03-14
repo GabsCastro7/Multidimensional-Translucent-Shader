@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multidimensional Shader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="controls">
+    <div class="audio-controls">
+      <label>YouTube URL:</label>
+      <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL">
+      <button id="connectAudio">Connect Audio</button>
+      <div class="slider-container">
+        <label>Audio Reactivity:</label>
+        <input type="range" id="audioSensitivity" min="0" max="2" value="1" step="0.1">
+        <span class="value-display" id="audioSensitivityValue">1.00</span>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

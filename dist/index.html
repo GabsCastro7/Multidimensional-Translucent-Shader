@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html><head><base href="/" /><title>Multidimensional Translucent Shader</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+        body { 
+            margin: 0; 
+            background: linear-gradient(to bottom, #000000, #1a1a2e);
+            overflow: hidden;
+        }
+        canvas { display: block; }
+        #controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            color: #ffffff80;
+            font-family: monospace;
+            z-index: 1000;
+        }
+        .slider-container {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+        }
+        input[type="range"] {
+            width: 200px;
+            background: #1a1a2e;
+        }
+        .value-display {
+            display: inline-block;
+            width: 50px;
+            text-align: right;
+        }
+        #lightInfo {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: #ffffff80;
+            font-family: monospace;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .color-controls {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ffffff30;
+        }
+        .checkbox-container {
+            margin: 10px 0;
+        }
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+        #description {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            max-width: 300px;
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 5px;
+            color: #ffffff80;
+            font-family: system-ui, -apple-system, sans-serif;
+            z-index: 1000;
+        }
+
+        #description h1 {
+            font-size: 1.5em;
+            margin: 0 0 15px 0;
+            color: #fff;
+        }
+
+        #description p {
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        #description .hint {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        #description .icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        #description .icons svg {
+            fill: #ffffff80;
+        }
+        .audio-controls {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ffffff30;
+        }
+        .audio-controls input[type="text"] {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #ffffff30;
+            color: #fff;
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .audio-controls button {
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #ffffff30;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .audio-controls button:hover {
+            background: #2a2a4e;
+        }
+    </style>  <script type="module" crossorigin src="/assets/index-CZ_3-ZgQ.js"></script>
+</head><body>
+    <canvas id="particleCanvas"></canvas>
+    <div id="description">
+        <h1>Multidimensional Translucent Shader</h1>
+        <p>An interactive 3D visualization featuring a translucent torus with dynamic plasma effects. Control the light source with your mouse/touch, adjust various parameters to create unique visual effects, and experiment with color modes. The floating particles follow your cursor, creating an ethereal atmosphere.</p>
+        <p>Enhancements include adjustable glow intensity and customizable rotation speed for a more personalized experience.</p>
+        <div class="icons">
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
+                <line x1="12" y1="2" x2="12" y2="4" stroke="white" stroke-width="2"/>
+                <line x1="12" y1="20" x2="12" y2="22" stroke="white" stroke-width="2"/>
+                <line x1="2" y1="12" x2="4" y2="12" stroke="white" stroke-width="2"/>
+                <line x1="20" y1="12" x2="22" y2="12" stroke="white" stroke-width="2"/>
+                <line x1="5" y1="5" x2="6.5" y2="6.5" stroke="white" stroke-width="2"/>
+                <line x1="17" y1="17" x2="18.5" y2="18.5" stroke="white" stroke-width="2"/>
+                <line x1="5" y1="19" x2="6.5" y2="17.5" stroke="white" stroke-width="2"/>
+                <line x1="17" y1="7" x2="18.5" y2="5.5" stroke="white" stroke-width="2"/>
+            </svg>
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2v4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 22v-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4.93 4.93l2.83 2.83" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16.24 16.24l2.83 2.83" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M2 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M22 12h-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4.93 19.07l2.83-2.83" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16.24 7.76l2.83-2.83" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+        </div>
+        <p class="hint">Scroll to adjust light distance</p>
+    </div>
+    <div id="controls">
+        <div class="slider-container">
+            <label>Base Frequency:</label>
+            <input type="range" id="baseFreq" min="0" max="2" value="0.5" step="0.01">
+            <span class="value-display" id="baseFreqValue">0.50</span>
+        </div>
+        <div class="slider-container">
+            <label>Plasma Density:</label>
+            <input type="range" id="plasmaDensity" min="0" max="1" value="0.3" step="0.01">
+            <span class="value-display" id="plasmaDensityValue">0.30</span>
+        </div>
+        <div class="slider-container">
+            <label>Space Warp:</label>
+            <input type="range" id="spaceWarp" min="0" max="1" value="0.2" step="0.01">
+            <span class="value-display" id="spaceWarpValue">0.20</span>
+        </div>
+        <div class="slider-container">
+            <label>Light Intensity:</label>
+            <input type="range" id="lightIntensity" min="0" max="5" value="2" step="0.1">
+            <span class="value-display" id="lightIntensityValue">2.00</span>
+        </div>
+        <div class="slider-container">
+            <label>Intensidade de Brilho:</label>
+            <input type="range" id="glowIntensity" min="0" max="1" value="0.5" step="0.01">
+            <span class="value-display" id="glowIntensityValue">0.50</span>
+        </div>
+        <div class="slider-container">
+            <label>Velocidade de Rotação:</label>
+            <input type="range" id="rotationSpeed" min="0" max="0.01" value="0.002" step="0.001">
+            <span class="value-display" id="rotationSpeedValue">0.002</span>
+        </div>
+        <div class="color-controls">
+            <div class="slider-container">
+                <label>Hue Rotation:</label>
+                <input type="range" id="hueRotation" min="0" max="360" value="0" step="1">
+                <span class="value-display" id="hueRotationValue">0°</span>
+            </div>
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="rainbowMode"> Rainbow Mode
+                </label>
+            </div>
+        </div>
+        <div class="audio-controls">
+            <label>YouTube URL:</label>
+            <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL">
+            <button id="connectAudio">Connect Audio</button>
+            <div class="slider-container">
+                <label>Audio Reactivity:</label>
+                <input type="range" id="audioSensitivity" min="0" max="2" value="1" step="0.1">
+                <span class="value-display" id="audioSensitivityValue">1.00</span>
+            </div>
+        </div>
+    </div>
+    <div id="lightInfo">Move mouse/touch to control light | Use scroll wheel to adjust light distance</div>
+</body>
+</html>

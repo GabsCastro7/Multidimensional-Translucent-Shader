@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+#controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-family: monospace;
+  z-index: 1000;
+}
+
+.audio-controls {
+  margin-top: 20px;
+}
+
+.slider-container {
+  margin: 10px 0;
+}
+
+label {
+  display: inline-block;
+  width: 140px;
+}
+
+input[type="range"] {
+  width: 200px;
+}
+
+.value-display {
+  display: inline-block;
+  width: 50px;
+  text-align: right;
+}
